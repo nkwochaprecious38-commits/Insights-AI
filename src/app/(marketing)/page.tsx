@@ -366,9 +366,9 @@ export default function HomePage() {
 /* ─── Static data ─────────────────────────────────────────────── */
 
 const STATS = [
-  { number: "10x", label: "Faster than spreadsheets" },
+  { number: "10x", label: "Faster than manual reporting" },
   { number: "94%", label: "Forecast accuracy" },
-  { number: "2 min", label: "Time to first insight" },
+  { number: "500+", label: "Data sources supported" },
 ];
 
 const LOGOS = ["Meridian Capital", "NovaTech", "Blueshore Group", "Oryx Partners", "Vantage Labs", "Clearfield Inc"];
