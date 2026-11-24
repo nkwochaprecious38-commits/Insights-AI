@@ -10,7 +10,9 @@ import Input from "@/components/ui/Input";
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirect = searchParams.get("redirect") || "/dashboard";
+  const rawRedirect = searchParams.get("redirect") || "";
+  // Only allow same site paths, never protocol relative or absolute URLs.
+  const redirect = rawRedirect.startsWith("/") && !rawRedirect.startsWith("//") && !rawRedirect.includes("\\") ? rawRedirect : "/dashboard";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,7 +31,7 @@ function LoginForm() {
     if (!isSupabaseConfigured) { setError(NOT_CONFIGURED_MESSAGE); return; }
     setLoading(true);
     setError("");
-    const supabase = createClient();
+    const supabase = createClient(remember);
     const { error: err } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (err) {

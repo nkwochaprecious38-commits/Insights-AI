@@ -189,7 +189,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
             <button
               onClick={handleLogout}
               className="p-1.5 rounded-lg text-white/30 hover:text-white/70 hover:bg-white/[0.07] transition-colors flex-shrink-0"
-              title="Log out"
+              title="Log out" aria-label="Log out"
             >
               <LogOut size={14} />
             </button>
@@ -202,7 +202,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
             <button
               onClick={handleLogout}
               className="p-1.5 rounded-lg text-white/30 hover:text-white/70 hover:bg-white/[0.07] transition-colors"
-              title="Log out"
+              title="Log out" aria-label="Log out"
             >
               <LogOut size={13} />
             </button>

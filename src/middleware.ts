@@ -32,9 +32,11 @@ export async function middleware(request: NextRequest) {
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
           supabaseResponse = NextResponse.next({ request });
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options)
-          );
+          const sessionOnly = request.cookies.get("ia_session_only")?.value === "1";
+          cookiesToSet.forEach(({ name, value, options }) => {
+            const opts = sessionOnly && value ? { ...options, maxAge: undefined, expires: undefined } : options;
+            supabaseResponse.cookies.set(name, value, opts);
+          });
         },
       },
     }
