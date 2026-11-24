@@ -11,7 +11,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { createBrowserClient } from "@supabase/ssr";
+import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import Link from "next/link";
 import { Upload, BarChart2, FileText, Brain, TrendingUp, TrendingDown } from "lucide-react";
 
@@ -137,13 +137,9 @@ const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?:
 export default function DashboardOverviewPage() {
   const [userName, setUserName] = useState("there");
 
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
-
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
+    if (!isSupabaseConfigured) return;
+    createClient().auth.getUser().then(({ data }) => {
       if (data.user) {
         const name = data.user.user_metadata?.full_name || data.user.email?.split("@")[0];
         if (name) setUserName(name.split(" ")[0]);

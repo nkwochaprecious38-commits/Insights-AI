@@ -3,7 +3,7 @@ import { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
+import { createClient, isSupabaseConfigured, NOT_CONFIGURED_MESSAGE } from "@/lib/supabase/client";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 
@@ -26,6 +26,7 @@ function LoginForm() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) { setError("Email and password are required"); return; }
+    if (!isSupabaseConfigured) { setError(NOT_CONFIGURED_MESSAGE); return; }
     setLoading(true);
     setError("");
     const supabase = createClient();
@@ -42,6 +43,7 @@ function LoginForm() {
   const handleReset = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!resetEmail) return;
+    if (!isSupabaseConfigured) { setError(NOT_CONFIGURED_MESSAGE); return; }
     setResetLoading(true);
     const supabase = createClient();
     await supabase.auth.resetPasswordForEmail(resetEmail, {
@@ -57,6 +59,9 @@ function LoginForm() {
         <div className="bg-white rounded-2xl border border-[#E4E7EC] p-8 shadow-[0_1px_3px_rgba(0,0,0,0.08)]">
           <h1 className="text-2xl font-bold text-[#172B4D] mb-1.5" style={{ fontFamily: "Manrope, sans-serif" }}>Reset password</h1>
           <p className="text-sm text-[#667085] mb-7">Enter your email and we will send you a reset link.</p>
+          {error && !resetSent && (
+            <div className="mb-5 p-3.5 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700">{error}</div>
+          )}
           {resetSent ? (
             <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-lg text-sm text-emerald-700">
               Reset link sent. Check your email inbox.

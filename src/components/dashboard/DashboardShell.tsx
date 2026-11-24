@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { createBrowserClient } from "@supabase/ssr";
+import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import {
   LayoutDashboard,
   MessageSquare,
@@ -97,13 +97,9 @@ export default function DashboardShell({ children }: { children: React.ReactNode
   const pathname = usePathname();
   const router = useRouter();
 
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
-
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
+    if (!isSupabaseConfigured) return;
+    createClient().auth.getUser().then(({ data }) => {
       if (data.user) {
         setUser({
           name: data.user.user_metadata?.full_name || data.user.email?.split("@")[0] || "User",
@@ -114,7 +110,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
   }, []);
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    if (isSupabaseConfigured) await createClient().auth.signOut();
     router.push("/login");
   };
 

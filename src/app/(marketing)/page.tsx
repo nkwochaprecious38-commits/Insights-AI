@@ -1,597 +1,442 @@
 import Link from "next/link";
+import {
+  ArrowRight,
+  MessageSquareText,
+  LineChart,
+  FileText,
+  LayoutDashboard,
+  Radar,
+  Lightbulb,
+  Database,
+  Wallet,
+  TrendingUp,
+  Megaphone,
+  Settings2,
+  HeartHandshake,
+  Briefcase,
+  Check,
+} from "lucide-react";
 
-export default function HomePage() {
+/* ------------------------------------------------------------------ */
+/* Shared layout helpers                                               */
+/* ------------------------------------------------------------------ */
+
+const container = "mx-auto w-full max-w-6xl px-6 sm:px-8";
+const display = { fontFamily: "Manrope, sans-serif" } as const;
+
+function SectionHeading({
+  eyebrow,
+  title,
+  body,
+  align = "center",
+  light = false,
+}: {
+  eyebrow: string;
+  title: string;
+  body?: string;
+  align?: "center" | "left";
+  light?: boolean;
+}) {
   return (
-    <div className="bg-white">
-
-      {/* ─── HERO ─────────────────────────────────────────────── */}
-      <section className="relative bg-[#0D1117] overflow-hidden">
-        {/* Subtle grid */}
-        <div
-          className="absolute inset-0 opacity-[0.04]"
-          style={{
-            backgroundImage:
-              "linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)",
-            backgroundSize: "48px 48px",
-          }}
-        />
-        {/* Glow blobs */}
-        <div
-          className="absolute top-0 left-0 w-[700px] h-[700px] -translate-x-1/3 -translate-y-1/3 rounded-full pointer-events-none"
-          style={{ background: "radial-gradient(circle, rgba(53,106,230,0.15) 0%, transparent 65%)" }}
-        />
-        <div
-          className="absolute bottom-0 right-0 w-[600px] h-[600px] translate-x-1/4 translate-y-1/4 rounded-full pointer-events-none"
-          style={{ background: "radial-gradient(circle, rgba(98,86,199,0.12) 0%, transparent 65%)" }}
-        />
-
-        <div className="relative max-w-7xl mx-auto px-5 sm:px-8 pt-32 pb-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-10 items-center">
-
-            {/* Left: copy */}
-            <div>
-              <div className="inline-flex items-center gap-2 border border-white/10 rounded-full px-3.5 py-1.5 mb-8 bg-white/5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#16A6A1] animate-pulse" />
-                <span className="text-[12px] font-semibold text-white/50 tracking-widest uppercase">
-                  Business Intelligence Platform
-                </span>
-              </div>
-
-              <h1
-                className="text-5xl sm:text-6xl lg:text-[68px] font-black text-white mb-6"
-                style={{ fontFamily: "Manrope, sans-serif", letterSpacing: "-0.03em", lineHeight: 1.03 }}
-              >
-                See beyond
-                <br />
-                <span style={{ color: "#356AE6" }}>the numbers.</span>
-              </h1>
-
-              <p className="text-[17px] text-white/50 leading-[1.75] mb-10 max-w-[480px]">
-                Insights AI transforms complex business data into clear insights, predictive forecasts, and decisions you can act on. No data science degree required.
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-3 mb-14">
-                <Link
-                  href="/signup"
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#356AE6] text-white text-[15px] font-semibold rounded-xl hover:bg-[#2458D0] transition-colors"
-                >
-                  Start for free
-                  <ArrowRight />
-                </Link>
-                <Link
-                  href="/platform"
-                  className="inline-flex items-center justify-center px-6 py-3.5 border border-white/10 bg-white/5 text-white text-[15px] font-semibold rounded-xl hover:bg-white/10 transition-colors"
-                >
-                  Explore platform
-                </Link>
-              </div>
-
-              <div className="flex flex-wrap gap-10">
-                {STATS.map(({ number, label }) => (
-                  <div key={label}>
-                    <div
-                      className="text-[26px] font-black text-white"
-                      style={{ fontFamily: "Manrope, sans-serif" }}
-                    >
-                      {number}
-                    </div>
-                    <div className="text-[12px] text-white/40 mt-0.5 font-medium">{label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Right: mockup */}
-            <div className="flex justify-center lg:justify-end">
-              <DashboardMockup />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── TRUSTED BY ───────────────────────────────────────── */}
-      <section className="py-14 border-y border-[#F3F4F6]">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8">
-          <p className="text-center text-[11px] font-bold text-[#9CA3AF] uppercase tracking-widest mb-8">
-            Trusted by data-driven teams
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-10">
-            {LOGOS.map((name) => (
-              <span key={name} className="text-[13px] font-bold text-[#D1D5DB] tracking-tight">
-                {name}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── PROBLEM ─────────────────────────────────────────── */}
-      <section className="py-28">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-            <div className="lg:sticky lg:top-28">
-              <p className="text-[11px] font-bold text-[#356AE6] uppercase tracking-widest mb-5">The problem</p>
-              <h2
-                className="text-4xl sm:text-5xl font-black text-[#0D1117] mb-6"
-                style={{ fontFamily: "Manrope, sans-serif", letterSpacing: "-0.03em", lineHeight: 1.1 }}
-              >
-                Your business has
-                <br />
-                the data.
-                <br />
-                <span className="text-[#9CA3AF]">Do you have the insights?</span>
-              </h2>
-              <p className="text-[16px] text-[#6B7280] leading-relaxed">
-                Organizations collect enormous amounts of data every day. Most of it sits unused, buried in spreadsheets and disconnected systems while opportunities pass unnoticed.
-              </p>
-            </div>
-
-            <div className="space-y-2">
-              {PROBLEMS.map(({ n, title, text }) => (
-                <div
-                  key={n}
-                  className="flex gap-4 p-5 rounded-xl border border-transparent hover:border-[#E9EAEC] hover:bg-[#F9FAFB] transition-all group cursor-default"
-                >
-                  <span
-                    className="text-[11px] font-bold text-[#E4E7EC] group-hover:text-[#356AE6] transition-colors mt-0.5 w-6 flex-shrink-0"
-                    style={{ fontFamily: "Manrope, sans-serif" }}
-                  >
-                    {n}
-                  </span>
-                  <div>
-                    <p className="text-[14px] font-semibold text-[#111827] mb-1">{title}</p>
-                    <p className="text-[13.5px] text-[#6B7280] leading-relaxed">{text}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── PLATFORM FEATURES ───────────────────────────────── */}
-      <section className="py-28 bg-[#F9FAFB]">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8">
-          <div className="max-w-2xl mb-16">
-            <p className="text-[11px] font-bold text-[#356AE6] uppercase tracking-widest mb-5">The platform</p>
-            <h2
-              className="text-4xl sm:text-5xl font-black text-[#0D1117] mb-5"
-              style={{ fontFamily: "Manrope, sans-serif", letterSpacing: "-0.03em", lineHeight: 1.1 }}
-            >
-              One intelligent workspace.
-              <br />
-              Better decisions.
-            </h2>
-            <p className="text-[16px] text-[#6B7280] leading-relaxed">
-              Everything your team needs to go from raw data to clear decisions, in a single connected platform.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {FEATURES.map(({ accent, title, text }) => (
-              <div
-                key={title}
-                className="bg-white rounded-2xl p-6 border border-[#E9EAEC] hover:border-[#D1D5DB] hover:shadow-[0_8px_32px_rgba(0,0,0,0.07)] transition-all duration-200"
-              >
-                <div
-                  className="w-9 h-9 rounded-xl flex items-center justify-center mb-5"
-                  style={{ backgroundColor: accent + "18" }}
-                >
-                  <FeatureIcon accent={accent} />
-                </div>
-                <h3
-                  className="text-[15px] font-bold text-[#0D1117] mb-2.5"
-                  style={{ fontFamily: "Manrope, sans-serif" }}
-                >
-                  {title}
-                </h3>
-                <p className="text-[13.5px] text-[#6B7280] leading-relaxed">{text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── FEATURE SPOTLIGHT ───────────────────────────────── */}
-      <section className="py-28 bg-white overflow-hidden">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <p className="text-[11px] font-bold text-[#356AE6] uppercase tracking-widest mb-5">AI Data Analyst</p>
-              <h2
-                className="text-4xl sm:text-[46px] font-black text-[#0D1117] mb-6"
-                style={{ fontFamily: "Manrope, sans-serif", letterSpacing: "-0.03em", lineHeight: 1.08 }}
-              >
-                Ask questions.
-                <br />
-                Get answers.
-              </h2>
-              <p className="text-[16px] text-[#6B7280] leading-relaxed mb-8">
-                Type a question about your data the same way you would ask a colleague. Insights AI understands the context, runs the analysis, and shows you charts and recommendations in seconds.
-              </p>
-              <div className="space-y-3 mb-8">
-                {SAMPLE_QUESTIONS.map((q) => (
-                  <div key={q} className="flex items-start gap-3">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#356AE6] mt-[7px] flex-shrink-0" />
-                    <p className="text-[14px] text-[#374151]">{q}</p>
-                  </div>
-                ))}
-              </div>
-              <Link
-                href="/features"
-                className="inline-flex items-center gap-2 text-[14px] font-semibold text-[#356AE6] hover:gap-3 transition-all"
-              >
-                See all features
-                <ArrowRight />
-              </Link>
-            </div>
-            <AnalystMockup />
-          </div>
-        </div>
-      </section>
-
-      {/* ─── HOW IT WORKS ─────────────────────────────────────── */}
-      <section className="py-28 bg-[#0D1117] relative overflow-hidden">
-        <div
-          className="absolute inset-0 opacity-[0.03] pointer-events-none"
-          style={{
-            backgroundImage:
-              "linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)",
-            backgroundSize: "48px 48px",
-          }}
-        />
-        <div className="relative max-w-7xl mx-auto px-5 sm:px-8">
-          <div className="text-center mb-16">
-            <p className="text-[11px] font-bold text-[#356AE6] uppercase tracking-widest mb-5">How it works</p>
-            <h2
-              className="text-4xl sm:text-5xl font-black text-white"
-              style={{ fontFamily: "Manrope, sans-serif", letterSpacing: "-0.03em" }}
-            >
-              From raw data to decisions
-              <br />
-              in three steps
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {HOW_IT_WORKS.map(({ n, color, title, text }) => (
-              <div
-                key={n}
-                className="p-7 rounded-2xl border border-white/10 bg-white/[0.03] hover:bg-white/[0.05] transition-colors"
-              >
-                <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center mb-6 text-sm font-black"
-                  style={{ backgroundColor: color + "25", color }}
-                >
-                  {n}
-                </div>
-                <h3
-                  className="text-lg font-bold text-white mb-3"
-                  style={{ fontFamily: "Manrope, sans-serif" }}
-                >
-                  {title}
-                </h3>
-                <p className="text-[14px] text-white/50 leading-relaxed">{text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── USE CASES ───────────────────────────────────────── */}
-      <section className="py-28 bg-white">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8">
-          <div className="max-w-xl mb-16">
-            <p className="text-[11px] font-bold text-[#356AE6] uppercase tracking-widest mb-5">Use cases</p>
-            <h2
-              className="text-4xl sm:text-5xl font-black text-[#0D1117]"
-              style={{ fontFamily: "Manrope, sans-serif", letterSpacing: "-0.03em", lineHeight: 1.1 }}
-            >
-              Built for every part
-              <br />
-              of your business
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {USE_CASES.map(({ label, bg, items }) => (
-              <div
-                key={label}
-                className="rounded-2xl border border-[#E9EAEC] p-6 hover:border-[#D1D5DB] hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] transition-all duration-200"
-              >
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="w-7 h-7 rounded-lg" style={{ backgroundColor: bg }} />
-                  <h3
-                    className="text-[15px] font-bold text-[#0D1117]"
-                    style={{ fontFamily: "Manrope, sans-serif" }}
-                  >
-                    {label}
-                  </h3>
-                </div>
-                <ul className="space-y-2">
-                  {items.map((item) => (
-                    <li key={item} className="flex items-center gap-2.5 text-[13.5px] text-[#6B7280]">
-                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                        <path d="M2 6l3 3 5-5" stroke="#D1D5DB" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── CTA ──────────────────────────────────────────────── */}
-      <section className="py-28 bg-[#172B4D] relative overflow-hidden">
-        <div
-          className="absolute top-0 right-0 w-[500px] h-[500px] opacity-10 pointer-events-none"
-          style={{ background: "radial-gradient(circle, #356AE6 0%, transparent 70%)" }}
-        />
-        <div className="relative max-w-4xl mx-auto px-5 sm:px-8 text-center">
-          <h2
-            className="text-5xl sm:text-[64px] font-black text-white mb-6"
-            style={{ fontFamily: "Manrope, sans-serif", letterSpacing: "-0.03em", lineHeight: 1.03 }}
-          >
-            Make every business
-            <br />
-            decision more informed.
-          </h2>
-          <p className="text-[17px] text-white/50 leading-relaxed mb-10 max-w-xl mx-auto">
-            Bring your data into focus and uncover the insights that move your business forward.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link
-              href="/signup"
-              className="inline-flex items-center justify-center px-8 py-4 bg-white text-[#172B4D] text-[15px] font-bold rounded-xl hover:bg-[#F5F7FB] transition-colors"
-            >
-              Start analyzing your data
-            </Link>
-            <Link
-              href="/pricing"
-              className="inline-flex items-center justify-center px-8 py-4 border border-white/20 text-white text-[15px] font-semibold rounded-xl hover:bg-white/10 transition-colors"
-            >
-              View pricing
-            </Link>
-          </div>
-        </div>
-      </section>
-
+    <div className={align === "center" ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
+      <p className={`mb-4 text-sm font-semibold ${light ? "text-[#8FB0FF]" : "text-[#356AE6]"}`}>{eyebrow}</p>
+      <h2
+        style={display}
+        className={`text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl ${
+          light ? "text-white" : "text-[#172B4D]"
+        }`}
+      >
+        {title}
+      </h2>
+      {body && (
+        <p className={`mt-5 text-lg leading-8 ${light ? "text-white/70" : "text-[#667085]"}`}>{body}</p>
+      )}
     </div>
   );
 }
 
-/* ─── Static data ─────────────────────────────────────────────── */
-
-const STATS = [
-  { number: "10x", label: "Faster than manual reporting" },
-  { number: "94%", label: "Forecast accuracy" },
-  { number: "500+", label: "Data sources supported" },
-];
-
-const LOGOS = ["Meridian Capital", "NovaTech", "Blueshore Group", "Oryx Partners", "Vantage Labs", "Clearfield Inc"];
+/* ------------------------------------------------------------------ */
+/* Content                                                             */
+/* ------------------------------------------------------------------ */
 
 const PROBLEMS = [
-  { n: "01", title: "Data without direction", text: "Businesses collect data but struggle to understand what it means for their operations or strategy." },
-  { n: "02", title: "Reports take too long", text: "Analysis that should take minutes takes days. Manual work slows down every decision." },
-  { n: "03", title: "Hidden patterns and trends", text: "Opportunities and warning signals remain invisible inside disconnected, unanalyzed data." },
-  { n: "04", title: "Decisions without forecasting", text: "Without reliable forecasting, companies react rather than prepare for what comes next." },
-  { n: "05", title: "Technical barriers", text: "Meaningful analysis requires specialized skills that most business teams simply do not have." },
+  { title: "Data without answers", body: "Teams collect large volumes of information but struggle to understand what it means for the business." },
+  { title: "Slow, manual reporting", body: "Reports take days to prepare because analysis still depends on manual spreadsheet work." },
+  { title: "Disconnected sources", body: "Opportunities stay hidden when sales, finance, and marketing data live in separate places." },
+  { title: "Decisions without forecasts", body: "Plans are set on instinct when there is no reliable view of what may happen next." },
+  { title: "Specialist skills required", body: "Meaningful analysis often requires technical expertise that most teams do not have in house." },
+  { title: "No single view of performance", body: "Leaders lack one place to monitor how the organization is performing over time." },
 ];
 
-const FEATURES = [
-  { accent: "#356AE6", title: "AI Data Analyst", text: "Ask questions about your data in plain language. Get analysis, calculations, and charts instantly." },
-  { accent: "#6256C7", title: "Predictive Analytics", text: "Forecast revenue, demand, churn, and performance using historical data patterns." },
-  { accent: "#16A6A1", title: "AI Report Generator", text: "Generate executive summaries, findings, and recommendations ready to share with your team." },
-  { accent: "#269B70", title: "Interactive Dashboards", text: "Build custom dashboards with drag-and-drop components, filters, and date range controls." },
-  { accent: "#E6A23C", title: "Anomaly Detection", text: "Automatically identify unusual changes in revenue, expenses, and customer behavior." },
-  { accent: "#356AE6", title: "AI Recommendations", text: "Receive evidence-based recommendations linked directly to your data findings." },
+const CAPABILITIES = [
+  { icon: MessageSquareText, title: "AI Data Analyst", body: "Ask questions in plain language. Answers come from calculations on your own datasets, with charts and assumptions shown." },
+  { icon: LineChart, title: "Predictive Analytics", body: "Generate forecasts from historical data, with confidence intervals and model error metrics beside every prediction." },
+  { icon: FileText, title: "Automated Reporting", body: "Turn analysis into reports that include findings, metrics, visualizations, and recommended actions." },
+  { icon: LayoutDashboard, title: "Interactive Dashboards", body: "Build dashboards with metric cards and charts, apply filters, change date ranges, and share with your team." },
+  { icon: Radar, title: "Anomaly Detection", body: "Detect unusual changes in revenue, expenses, and customer behavior, with alert thresholds you control." },
+  { icon: Lightbulb, title: "AI Recommendations", body: "Receive practical next steps that link back to the evidence and explain why each one was suggested." },
 ];
 
-const SAMPLE_QUESTIONS = [
-  "What were our highest performing products last month?",
-  "Which marketing channel generated the most revenue?",
-  "What are our projected sales for the next quarter?",
-  "Which customers have the highest lifetime value?",
-];
-
-const HOW_IT_WORKS = [
-  { n: "1", color: "#356AE6", title: "Connect your data", text: "Upload CSV files, Excel spreadsheets, or connect to your existing databases and cloud services." },
-  { n: "2", color: "#6256C7", title: "Let AI analyze it", text: "The platform examines your data for trends, anomalies, correlations, and opportunities." },
-  { n: "3", color: "#16A6A1", title: "Act on the insights", text: "Turn findings into dashboards, reports, and recommendations grounded in real evidence." },
+const STEPS = [
+  { n: "01", title: "Connect or upload your data", body: "Bring in CSV, Excel, and JSON files, or connect a database. Structure and data quality are checked on arrival." },
+  { n: "02", title: "Let Insights AI analyze", body: "The platform profiles every column, finds trends, outliers, and correlations, and summarizes what deserves attention." },
+  { n: "03", title: "Turn findings into decisions", body: "Create forecasts, dashboards, and reports, then act on recommendations that point to their supporting data." },
 ];
 
 const USE_CASES = [
-  { label: "Finance", bg: "#172B4D", items: ["Revenue analysis", "Expense tracking", "Cash flow forecasting", "Financial trend reporting"] },
-  { label: "Sales", bg: "#356AE6", items: ["Pipeline forecasting", "Conversion analysis", "Territory performance", "Customer value scoring"] },
-  { label: "Marketing", bg: "#6256C7", items: ["Campaign ROI analysis", "Channel attribution", "Customer acquisition cost", "Funnel performance"] },
-  { label: "Operations", bg: "#16A6A1", items: ["Demand forecasting", "Resource utilization", "Inventory optimization", "Process efficiency"] },
-  { label: "Customer Experience", bg: "#269B70", items: ["Churn prediction", "Satisfaction analysis", "Behavior segmentation", "Retention modeling"] },
-  { label: "Executive", bg: "#E6A23C", items: ["Cross-org performance", "Strategic KPI tracking", "Board reporting", "AI governance"] },
+  { icon: Wallet, title: "Finance", body: "Track revenue, expenses, and cash flow, and see which costs are growing faster than income." },
+  { icon: TrendingUp, title: "Sales", body: "Forecast revenue, find conversion gaps, and understand which products and channels perform." },
+  { icon: Megaphone, title: "Marketing", body: "Compare campaigns and channels by acquisition cost, conversion rate, and return." },
+  { icon: Settings2, title: "Operations", body: "Monitor efficiency, demand patterns, and resource use across the business." },
+  { icon: HeartHandshake, title: "Customer Experience", body: "Understand behavior, spot churn risk, and read satisfaction patterns." },
+  { icon: Briefcase, title: "Executive Management", body: "See strategic metrics, forecasts, and opportunities in one central view." },
 ];
 
-/* ─── Shared micro-components ─────────────────────────────────── */
+/* ------------------------------------------------------------------ */
+/* Page                                                                */
+/* ------------------------------------------------------------------ */
 
-function ArrowRight() {
+export default function HomePage() {
   return (
-    <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-      <path d="M3 7.5h9M8 3l4.5 4.5L8 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
+    <div className="bg-white text-[#172B4D]">
+      {/* HERO */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-[#EDF3FF] via-[#F5F8FF] to-white">
+        <div className={`${container} pt-36 text-center sm:pt-40`}>
+          <p className="mx-auto mb-7 inline-flex items-center gap-2 rounded-full border border-[#D6E2FF] bg-white px-4 py-1.5 text-sm font-medium text-[#356AE6]">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#16A6A1]" />
+            Business intelligence and decision intelligence
+          </p>
 
-function FeatureIcon({ accent }: { accent: string }) {
-  return (
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-      <path d="M2 14l3.5-6.5 3 3.5 2.5-5.5 3 4.5" stroke={accent} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-      <circle cx="14.5" cy="3.5" r="1.5" fill={accent} />
-    </svg>
-  );
-}
+          <h1
+            style={display}
+            className="mx-auto max-w-4xl text-4xl font-extrabold leading-[1.1] tracking-tight text-[#172B4D] sm:text-5xl lg:text-[64px]"
+          >
+            See Beyond the Numbers.{" "}
+            <span className="text-[#356AE6]">Discover What Your Data Is Telling You.</span>
+          </h1>
 
-/* ─── Dashboard mockup ───────────────────────────────────────── */
+          <p className="mx-auto mt-7 max-w-2xl text-lg leading-8 text-[#667085]">
+            Insights AI transforms complex business data into clear insights, predictive forecasts, and actionable
+            recommendations. Understand performance, uncover opportunities, and make confident decisions with AI.
+          </p>
 
-function DashboardMockup() {
-  return (
-    <div className="w-full max-w-[600px]">
-      <div
-        className="rounded-2xl overflow-hidden border border-white/10 shadow-[0_32px_80px_rgba(0,0,0,0.6)]"
-        style={{ background: "#161B27" }}
-      >
-        {/* Title bar */}
-        <div
-          className="flex items-center gap-3 px-4 py-3 border-b border-white/[0.06]"
-          style={{ background: "#0F1420" }}
-        >
-          <div className="flex gap-1.5">
-            <div className="w-2.5 h-2.5 rounded-full bg-white/10" />
-            <div className="w-2.5 h-2.5 rounded-full bg-white/10" />
-            <div className="w-2.5 h-2.5 rounded-full bg-white/10" />
-          </div>
-          <div className="flex-1 flex justify-center">
-            <div className="bg-white/[0.06] rounded px-4 py-1 text-[11px] text-white/30">
-              app.insights-ai.com/dashboard
-            </div>
+          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Link
+              href="/signup"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#356AE6] px-7 py-3.5 text-base font-semibold text-white shadow-sm transition-colors hover:bg-[#2458D0] sm:w-auto"
+            >
+              Get Started
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link
+              href="/platform"
+              className="inline-flex w-full items-center justify-center rounded-xl border border-[#D0D5DD] bg-white px-7 py-3.5 text-base font-semibold text-[#172B4D] transition-colors hover:bg-[#F5F7FB] sm:w-auto"
+            >
+              Explore the Platform
+            </Link>
           </div>
         </div>
 
-        {/* App chrome */}
-        <div className="flex" style={{ height: 400 }}>
-          {/* Sidebar */}
-          <div
-            className="w-11 border-r border-white/[0.06] flex flex-col items-center pt-3 gap-2 flex-shrink-0"
-            style={{ background: "#0D1117" }}
-          >
-            <div className="w-7 h-7 rounded-lg bg-[#356AE6] flex items-center justify-center mb-2">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M1 9L4 4.5L6.5 7L9 2.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                <circle cx="9" cy="2.5" r="1.4" fill="#16A6A1" />
-              </svg>
-            </div>
-            {[
-              <svg key="1" width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="1" width="4.5" height="4.5" rx="1" fill="white" fillOpacity="0.3" /><rect x="7.5" y="1" width="4.5" height="4.5" rx="1" fill="white" fillOpacity="0.12" /><rect x="1" y="7.5" width="4.5" height="4.5" rx="1" fill="white" fillOpacity="0.12" /><rect x="7.5" y="7.5" width="4.5" height="4.5" rx="1" fill="white" fillOpacity="0.06" /></svg>,
-              <svg key="2" width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M1.5 10.5l2.5-5 2.5 3 2-4.5 2.5 3.5" stroke="white" strokeOpacity="0.25" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" /></svg>,
-              <svg key="3" width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="1" y="2.5" width="11" height="8" rx="1.5" stroke="white" strokeOpacity="0.25" strokeWidth="1.2" /><path d="M4 6h5M4 8.5h3" stroke="white" strokeOpacity="0.25" strokeWidth="1.2" strokeLinecap="round" /></svg>,
-              <svg key="4" width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="white" strokeOpacity="0.2" strokeWidth="1.2" /><path d="M6.5 4v2.5l1.5 1.5" stroke="white" strokeOpacity="0.2" strokeWidth="1.2" strokeLinecap="round" /></svg>,
-            ].map((icon, i) => (
-              <div key={i} className="w-7 h-7 rounded-lg flex items-center justify-center opacity-60">
-                {icon}
+        {/* Dashboard preview */}
+        <div className={`${container} mt-16 pb-24 sm:mt-20`}>
+          <DashboardPreview />
+          <p className="mt-5 text-center text-sm text-[#667085]">
+            Product preview using sample data. Forecast values are model generated and shown with an uncertainty range.
+          </p>
+        </div>
+      </section>
+
+      {/* PROBLEM */}
+      <section className="bg-white py-24 sm:py-28">
+        <div className={container}>
+          <SectionHeading
+            eyebrow="The challenge"
+            title="Your business has the data. Do you have the insights?"
+            body="Organizations collect valuable information every day, yet most of it never becomes a decision. The gap is rarely the data itself. It is the time and skill needed to understand it."
+          />
+
+          <div className="mt-16 grid gap-x-12 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+            {PROBLEMS.map((p, i) => (
+              <div key={p.title} className="border-t border-[#E4E7EC] pt-6">
+                <span className="text-sm font-semibold text-[#356AE6]">{String(i + 1).padStart(2, "0")}</span>
+                <h3 style={display} className="mt-3 text-lg font-bold text-[#172B4D]">
+                  {p.title}
+                </h3>
+                <p className="mt-2 leading-7 text-[#667085]">{p.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SOLUTION */}
+      <section className="bg-[#F5F7FB] py-24 sm:py-28">
+        <div className={container}>
+          <SectionHeading
+            eyebrow="The platform"
+            title="One intelligent workspace. Better business decisions."
+            body="Everything from data upload to forecasting and reporting lives in a single place, so analysis stays connected to the data behind it."
+          />
+
+          <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {CAPABILITIES.map(({ icon: Icon, title, body }) => (
+              <div key={title} className="rounded-2xl border border-[#E4E7EC] bg-white p-8">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#EDF3FF] text-[#356AE6]">
+                  <Icon className="h-5 w-5" />
+                </div>
+                <h3 style={display} className="mt-6 text-lg font-bold text-[#172B4D]">
+                  {title}
+                </h3>
+                <p className="mt-3 leading-7 text-[#667085]">{body}</p>
               </div>
             ))}
           </div>
 
-          {/* Main content */}
-          <div className="flex-1 p-4 overflow-hidden min-w-0">
-            {/* Header */}
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <div className="text-white text-[12px] font-semibold mb-0.5">Business Overview</div>
-                <div className="text-white/30 text-[10px]">November 2026 · Demo workspace</div>
+          <div className="mt-12 text-center">
+            <Link href="/features" className="inline-flex items-center gap-2 font-semibold text-[#356AE6] hover:text-[#2458D0]">
+              See all features
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* HOW IT WORKS */}
+      <section className="bg-white py-24 sm:py-28">
+        <div className={container}>
+          <SectionHeading eyebrow="How it works" title="From raw data to a confident decision in three steps" />
+
+          <div className="relative mt-16 grid gap-12 md:grid-cols-3 md:gap-8">
+            <div className="absolute left-[16.6%] right-[16.6%] top-6 hidden h-px bg-[#E4E7EC] md:block" />
+            {STEPS.map((s) => (
+              <div key={s.n} className="relative text-center">
+                <div
+                  style={display}
+                  className="relative mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#172B4D] text-sm font-bold text-white ring-8 ring-white"
+                >
+                  {s.n}
+                </div>
+                <h3 style={display} className="mt-6 text-xl font-bold text-[#172B4D]">
+                  {s.title}
+                </h3>
+                <p className="mx-auto mt-3 max-w-xs leading-7 text-[#667085]">{s.body}</p>
               </div>
-              <div className="flex gap-1.5">
-                <div className="bg-white/[0.07] rounded px-2 py-1 text-white/40 text-[10px]">30 days</div>
-                <div className="bg-[#356AE6] rounded px-2 py-1 text-white text-[10px] font-semibold">Export</div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PRODUCT PREVIEW */}
+      <section className="bg-[#172B4D] py-24 sm:py-28">
+        <div className={container}>
+          <SectionHeading
+            light
+            eyebrow="Inside the product"
+            title="Answers you can trace back to your data"
+            body="Every response from the AI Data Analyst shows the calculation, the data it used, and the assumptions behind it."
+          />
+
+          <div className="mt-16 grid items-start gap-8 lg:grid-cols-5">
+            <div className="lg:col-span-3">
+              <AnalystPreview />
+            </div>
+            <div className="space-y-4 lg:col-span-2">
+              <DataQualityPreview />
+              <ul className="space-y-3 rounded-2xl border border-white/10 bg-white/5 p-6">
+                {[
+                  "Observed data and model predictions are always labeled separately",
+                  "Numbers come from calculations, never from language model estimates",
+                  "Assumptions and limitations are stated with each forecast",
+                ].map((t) => (
+                  <li key={t} className="flex gap-3 text-[15px] leading-6 text-white/80">
+                    <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-[#16A6A1]" />
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* USE CASES */}
+      <section className="bg-white py-24 sm:py-28">
+        <div className={container}>
+          <SectionHeading
+            eyebrow="Use cases"
+            title="Built for every team that depends on data"
+            body="Each function gets analysis that fits the questions it asks most often."
+          />
+
+          <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {USE_CASES.map(({ icon: Icon, title, body }) => (
+              <Link
+                key={title}
+                href="/solutions"
+                className="group rounded-2xl border border-[#E4E7EC] bg-white p-8 transition-colors hover:border-[#B8CDFB] hover:bg-[#F8FAFF]"
+              >
+                <Icon className="h-6 w-6 text-[#356AE6]" />
+                <h3 style={display} className="mt-5 text-lg font-bold text-[#172B4D]">
+                  {title}
+                </h3>
+                <p className="mt-2 leading-7 text-[#667085]">{body}</p>
+                <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-[#356AE6]">
+                  Learn more
+                  <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FINAL CTA */}
+      <section className="bg-white pb-24 sm:pb-28">
+        <div className={container}>
+          <div className="rounded-3xl bg-[#EDF3FF] px-6 py-16 text-center sm:px-16 sm:py-20">
+            <div className="mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-white text-[#356AE6]">
+              <Database className="h-5 w-5" />
+            </div>
+            <h2 style={display} className="mx-auto max-w-2xl text-3xl font-extrabold leading-tight tracking-tight text-[#172B4D] sm:text-4xl">
+              Make every business decision more informed.
+            </h2>
+            <p className="mx-auto mt-5 max-w-xl text-lg leading-8 text-[#667085]">
+              Bring your data into focus and uncover the insights that move your business forward.
+            </p>
+            <Link
+              href="/signup"
+              className="mt-9 inline-flex items-center justify-center gap-2 rounded-xl bg-[#356AE6] px-8 py-4 text-base font-semibold text-white transition-colors hover:bg-[#2458D0]"
+            >
+              Start Analyzing Your Data
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Product previews (static illustrations using clearly labeled sample */
+/* data)                                                               */
+/* ------------------------------------------------------------------ */
+
+const OBSERVED = [42, 45, 44, 49, 53, 51, 57, 61, 60, 66, 70, 73];
+const FORECAST = [73, 76, 79, 82, 85];
+
+function DashboardPreview() {
+  const W = 560;
+  const H = 220;
+  const pad = { l: 8, r: 8, t: 16, b: 16 };
+  const total = OBSERVED.length + FORECAST.length - 1;
+  const min = 35;
+  const max = 100;
+  const x = (i: number) => pad.l + (i / total) * (W - pad.l - pad.r);
+  const y = (v: number) => pad.t + (1 - (v - min) / (max - min)) * (H - pad.t - pad.b);
+
+  const obsPath = OBSERVED.map((v, i) => `${i === 0 ? "M" : "L"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+  const fcStart = OBSERVED.length - 1;
+  const fcPath = FORECAST.map((v, i) => `${i === 0 ? "M" : "L"}${x(fcStart + i).toFixed(1)},${y(v).toFixed(1)}`).join(" ");
+  const upper = FORECAST.map((v, i) => `${i === 0 ? "M" : "L"}${x(fcStart + i).toFixed(1)},${y(v + i * 2.2).toFixed(1)}`).join(" ");
+  const lower = [...FORECAST]
+    .map((v, i) => ({ v, i }))
+    .reverse()
+    .map(({ v, i }) => `L${x(fcStart + i).toFixed(1)},${y(v - i * 2.2).toFixed(1)}`)
+    .join(" ");
+  const band = `${upper} ${lower} Z`;
+  const areaPath = `${obsPath} L${x(fcStart).toFixed(1)},${H - pad.b} L${x(0).toFixed(1)},${H - pad.b} Z`;
+
+  const kpis = [
+    { label: "Revenue", value: "$1.24M", delta: "+8.2%" },
+    { label: "Orders", value: "18,420", delta: "+5.1%" },
+    { label: "Conversion", value: "3.6%", delta: "+0.4 pts" },
+    { label: "Churn risk", value: "142", delta: "accounts" },
+  ];
+
+  return (
+    <div className="mx-auto max-w-5xl overflow-hidden rounded-2xl border border-[#E4E7EC] bg-white shadow-[0_24px_60px_-20px_rgba(23,43,77,0.25)]">
+      {/* window bar */}
+      <div className="flex items-center gap-2 border-b border-[#E4E7EC] bg-[#F9FAFB] px-5 py-3">
+        <span className="h-2.5 w-2.5 rounded-full bg-[#E4E7EC]" />
+        <span className="h-2.5 w-2.5 rounded-full bg-[#E4E7EC]" />
+        <span className="h-2.5 w-2.5 rounded-full bg-[#E4E7EC]" />
+        <span className="ml-3 text-xs font-medium text-[#667085]">Executive overview · Sample workspace</span>
+      </div>
+
+      <div className="p-4 sm:p-6">
+        {/* KPIs */}
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {kpis.map((k) => (
+            <div key={k.label} className="rounded-xl border border-[#E4E7EC] p-4 text-left">
+              <p className="text-xs font-medium text-[#667085]">{k.label}</p>
+              <p style={display} className="mt-1.5 text-xl font-extrabold text-[#172B4D] sm:text-2xl">
+                {k.value}
+              </p>
+              <p className="mt-1 text-xs font-semibold text-[#269B70]">{k.delta}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-4 grid gap-4 lg:grid-cols-3">
+          {/* Chart */}
+          <div className="rounded-xl border border-[#E4E7EC] p-4 text-left sm:p-5 lg:col-span-2">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <p style={display} className="text-sm font-bold text-[#172B4D]">
+                Revenue trend and forecast
+              </p>
+              <div className="flex items-center gap-4 text-xs text-[#667085]">
+                <span className="flex items-center gap-1.5">
+                  <span className="h-0.5 w-4 bg-[#356AE6]" />
+                  Observed
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <span className="h-0 w-4 border-t-2 border-dashed border-[#6256C7]" />
+                  Forecast
+                </span>
               </div>
             </div>
+            <svg viewBox={`0 0 ${W} ${H}`} className="mt-3 h-auto w-full" role="img" aria-label="Revenue trend with forecast">
+              <defs>
+                <linearGradient id="obsFill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#356AE6" stopOpacity="0.16" />
+                  <stop offset="100%" stopColor="#356AE6" stopOpacity="0" />
+                </linearGradient>
+              </defs>
+              {[0, 1, 2, 3].map((g) => (
+                <line key={g} x1={pad.l} x2={W - pad.r} y1={pad.t + (g * (H - pad.t - pad.b)) / 3} y2={pad.t + (g * (H - pad.t - pad.b)) / 3} stroke="#EEF0F4" />
+              ))}
+              <line x1={x(fcStart)} x2={x(fcStart)} y1={pad.t} y2={H - pad.b} stroke="#D0D5DD" strokeDasharray="3 4" />
+              <path d={areaPath} fill="url(#obsFill)" />
+              <path d={band} fill="#6256C7" fillOpacity="0.12" />
+              <path d={obsPath} fill="none" stroke="#356AE6" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+              <path d={fcPath} fill="none" stroke="#6256C7" strokeWidth="2.5" strokeDasharray="6 5" strokeLinecap="round" />
+              <circle cx={x(fcStart)} cy={y(OBSERVED[fcStart])} r="4.5" fill="#fff" stroke="#356AE6" strokeWidth="2.5" />
+            </svg>
+          </div>
 
-            {/* KPIs */}
-            <div className="grid grid-cols-4 gap-2 mb-4">
+          {/* Insight panel */}
+          <div className="rounded-xl border border-[#E4E7EC] bg-[#F5F8FF] p-5 text-left">
+            <p className="text-xs font-semibold text-[#356AE6]">AI generated insight</p>
+            <p className="mt-3 text-sm leading-6 text-[#344054]">
+              Revenue grew in 9 of the last 12 months. Paid search contributed the largest share of the increase.
+            </p>
+            <div className="mt-5 space-y-3">
               {[
-                { label: "Revenue", value: "$2.4M", change: "+18%", color: "#356AE6" },
-                { label: "Customers", value: "14,820", change: "+6%", color: "#16A6A1" },
-                { label: "Avg Order", value: "$162", change: "+4.5%", color: "#6256C7" },
-                { label: "Churn", value: "2.1%", change: "-0.4%", color: "#269B70" },
-              ].map((kpi) => (
-                <div
-                  key={kpi.label}
-                  className="rounded-xl p-2.5 border border-white/[0.06]"
-                  style={{ background: "rgba(255,255,255,0.03)" }}
-                >
-                  <div className="text-white/40 text-[9px] mb-1">{kpi.label}</div>
-                  <div className="text-white text-[12px] font-bold">{kpi.value}</div>
-                  <div className="text-emerald-400 text-[9px] font-medium mt-0.5">{kpi.change}</div>
-                  <div className="mt-1.5 h-0.5 rounded-full bg-white/5">
-                    <div className="h-full rounded-full w-3/5" style={{ background: kpi.color }} />
+                { l: "Forecast confidence", v: "Interval shown", w: "72%", c: "#6256C7" },
+                { l: "Data quality", v: "Checked", w: "91%", c: "#16A6A1" },
+                { l: "Target progress", v: "On track", w: "84%", c: "#356AE6" },
+              ].map((b) => (
+                <div key={b.l}>
+                  <div className="flex justify-between text-xs">
+                    <span className="font-medium text-[#475467]">{b.l}</span>
+                    <span className="text-[#667085]">{b.v}</span>
+                  </div>
+                  <div className="mt-1.5 h-1.5 rounded-full bg-white">
+                    <div className="h-1.5 rounded-full" style={{ width: b.w, backgroundColor: b.c }} />
                   </div>
                 </div>
               ))}
-            </div>
-
-            {/* Chart + AI panel */}
-            <div className="grid grid-cols-5 gap-2.5">
-              {/* SVG chart */}
-              <div
-                className="col-span-3 rounded-xl p-3 border border-white/[0.06]"
-                style={{ background: "rgba(255,255,255,0.025)" }}
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-white text-[10px] font-semibold">Revenue trend</span>
-                  <div className="flex gap-2">
-                    <span className="text-white/30 text-[9px] flex items-center gap-1">
-                      <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#356AE6]" />
-                      Actual
-                    </span>
-                    <span className="text-white/30 text-[9px] flex items-center gap-1">
-                      <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#6256C7]" />
-                      Forecast
-                    </span>
-                  </div>
-                </div>
-                <svg viewBox="0 0 200 72" className="w-full" height="72" preserveAspectRatio="none">
-                  <defs>
-                    <linearGradient id="cg1" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#356AE6" stopOpacity="0.3" />
-                      <stop offset="100%" stopColor="#356AE6" stopOpacity="0" />
-                    </linearGradient>
-                    <linearGradient id="cg2" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#6256C7" stopOpacity="0.2" />
-                      <stop offset="100%" stopColor="#6256C7" stopOpacity="0" />
-                    </linearGradient>
-                  </defs>
-                  <line x1="0" y1="18" x2="200" y2="18" stroke="white" strokeOpacity="0.04" strokeWidth="1" />
-                  <line x1="0" y1="36" x2="200" y2="36" stroke="white" strokeOpacity="0.04" strokeWidth="1" />
-                  <line x1="0" y1="54" x2="200" y2="54" stroke="white" strokeOpacity="0.04" strokeWidth="1" />
-                  <path d="M0,66 L28,58 L56,50 L84,42 L112,32 L140,24 L168,18 L180,15 L180,72 L0,72 Z" fill="url(#cg1)" />
-                  <path d="M0,66 L28,58 L56,50 L84,42 L112,32 L140,24 L168,18 L180,15" fill="none" stroke="#356AE6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M180,15 L192,11 L200,8 L200,72 L180,72 Z" fill="url(#cg2)" />
-                  <path d="M180,15 L192,11 L200,8" fill="none" stroke="#6256C7" strokeWidth="1.6" strokeDasharray="2.5 2" strokeLinecap="round" />
-                  <circle cx="180" cy="15" r="2.5" fill="#356AE6" stroke="#161B27" strokeWidth="1.5" />
-                  {(["J","M","M","J","S","N"] as const).map((m, i) => (
-                    <text key={i} x={i * 40} y="70" fill="white" fillOpacity="0.2" fontSize="6.5" textAnchor="middle">{m}</text>
-                  ))}
-                </svg>
-              </div>
-
-              {/* AI insight */}
-              <div
-                className="col-span-2 rounded-xl p-3 border border-[#356AE6]/20"
-                style={{ background: "linear-gradient(135deg, rgba(53,106,230,0.1) 0%, rgba(98,86,199,0.1) 100%)" }}
-              >
-                <div className="flex items-center gap-1.5 mb-2">
-                  <div className="w-4 h-4 rounded bg-[#356AE6] flex items-center justify-center">
-                    <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
-                      <path d="M4 1L5 3H7L5.5 4.5L6 6.5L4 5.5L2 6.5L2.5 4.5L1 3H3L4 1Z" fill="white" />
-                    </svg>
-                  </div>
-                  <span className="text-white text-[10px] font-semibold">AI Insight</span>
-                </div>
-                <p className="text-white/60 text-[9.5px] leading-relaxed mb-2.5">
-                  Revenue on track to exceed Q4 targets by{" "}
-                  <span className="text-[#16A6A1] font-semibold">12.4%</span>. Enterprise accelerated in Oct.
-                </p>
-                <div className="space-y-1.5">
-                  <div className="rounded-lg p-2" style={{ background: "rgba(255,255,255,0.05)" }}>
-                    <div className="text-white/30 text-[8.5px]">Top segment</div>
-                    <div className="text-white text-[10px] font-semibold">Enterprise: +34% MoM</div>
-                  </div>
-                  <div className="rounded-lg p-2" style={{ background: "rgba(255,255,255,0.05)" }}>
-                    <div className="text-white/30 text-[8.5px]">Recommendation</div>
-                    <div className="text-[#16A6A1] text-[10px] font-medium">Increase enterprise outreach</div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -600,99 +445,81 @@ function DashboardMockup() {
   );
 }
 
-/* ─── AI Analyst mockup ──────────────────────────────────────── */
-
-function AnalystMockup() {
+function AnalystPreview() {
+  const bars = [
+    { l: "Paid search", v: 92 },
+    { l: "Email", v: 68 },
+    { l: "Organic", v: 55 },
+    { l: "Referral", v: 31 },
+  ];
   return (
-    <div className="rounded-2xl border border-[#E9EAEC] overflow-hidden shadow-[0_16px_64px_rgba(0,0,0,0.08)]">
-      {/* Header */}
-      <div className="bg-[#0D1117] px-5 py-3.5 flex items-center gap-3">
-        <div className="w-7 h-7 rounded-lg bg-[#172B4D] flex items-center justify-center">
-          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-            <path d="M1 10L4.5 4.5L7 7.5L9.5 2.5" stroke="#356AE6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            <circle cx="9.5" cy="2.5" r="1.4" fill="#16A6A1" />
-          </svg>
-        </div>
-        <span className="text-white text-[13px] font-semibold">AI Data Analyst</span>
-        <div className="ml-auto flex items-center gap-1.5">
-          <div className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-          <span className="text-white/30 text-[11px]">Q4 Sales Data · 12,480 rows</span>
-        </div>
+    <div className="overflow-hidden rounded-2xl bg-white shadow-xl">
+      <div className="flex items-center justify-between border-b border-[#E4E7EC] px-5 py-3.5">
+        <p style={display} className="text-sm font-bold text-[#172B4D]">
+          AI Data Analyst
+        </p>
+        <span className="rounded-full bg-[#F5F7FB] px-3 py-1 text-xs font-medium text-[#667085]">Dataset: sample_sales.csv</span>
       </div>
-
-      {/* Chat */}
-      <div className="bg-[#F9FAFB] p-5 space-y-4">
-        {/* User bubble */}
-        <div className="flex justify-end">
-          <div className="bg-[#172B4D] text-white text-[13px] rounded-2xl rounded-tr-sm px-4 py-2.5 max-w-[280px] leading-relaxed">
-            Which marketing channel generated the most revenue last quarter?
-          </div>
+      <div className="space-y-5 p-5 sm:p-6">
+        <div className="ml-auto max-w-sm rounded-2xl rounded-tr-md bg-[#356AE6] px-4 py-3 text-sm leading-6 text-white">
+          Which marketing channel generated the most revenue?
         </div>
 
-        {/* AI bubble */}
-        <div className="flex gap-2.5">
-          <div className="w-6 h-6 rounded-full bg-[#172B4D] flex items-center justify-center flex-shrink-0 mt-0.5">
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-              <path d="M5 1L6 3.5H8.5L6.5 5L7 7.5L5 6L3 7.5L3.5 5L1.5 3.5H4L5 1Z" fill="#356AE6" />
-            </svg>
-          </div>
-          <div className="flex-1 space-y-3">
-            <div className="bg-white border border-[#E9EAEC] text-[13px] text-[#374151] rounded-2xl rounded-tl-sm px-4 py-3 leading-relaxed">
-              Based on Q4 Sales Data,{" "}
-              <span className="font-semibold text-[#172B4D]">Organic Search</span> generated the
-              highest revenue at{" "}
-              <span className="font-semibold text-[#356AE6]">$182,000</span> (34% of total). Email
-              had the best ROI at 4.2x.
-            </div>
+        <div className="max-w-xl">
+          <p className="text-sm leading-6 text-[#344054]">
+            Paid search generated the most revenue in the selected period. The ranking below is calculated from the revenue column grouped by channel.
+          </p>
 
-            {/* Mini chart */}
-            <div className="bg-white border border-[#E9EAEC] rounded-xl p-3.5">
-              <p className="text-[11px] font-semibold text-[#374151] mb-3">Revenue by channel (Q4)</p>
-              <div className="space-y-2">
-                {[
-                  { ch: "Organic", val: "$182k", pct: 100, color: "#356AE6" },
-                  { ch: "Paid Search", val: "$134k", pct: 73, color: "#6256C7" },
-                  { ch: "Email", val: "$98k", pct: 54, color: "#16A6A1" },
-                  { ch: "Referral", val: "$76k", pct: 42, color: "#269B70" },
-                ].map(({ ch, val, pct, color }) => (
-                  <div key={ch} className="flex items-center gap-2.5">
-                    <span className="text-[11px] text-[#6B7280] w-20 flex-shrink-0">{ch}</span>
-                    <div className="flex-1 h-1.5 bg-[#F3F4F6] rounded-full overflow-hidden">
-                      <div
-                        className="h-full rounded-full"
-                        style={{ width: `${pct}%`, background: color }}
-                      />
-                    </div>
-                    <span className="text-[11px] font-semibold text-[#374151] w-10 text-right">{val}</span>
+          <div className="mt-4 rounded-xl border border-[#E4E7EC] p-4">
+            <p className="text-xs font-semibold text-[#667085]">Revenue by channel (sample, indexed)</p>
+            <div className="mt-3 space-y-2.5">
+              {bars.map((b, i) => (
+                <div key={b.l} className="flex items-center gap-3 text-xs">
+                  <span className="w-20 flex-shrink-0 text-[#475467]">{b.l}</span>
+                  <div className="h-2.5 flex-1 rounded-full bg-[#F2F4F7]">
+                    <div className="h-2.5 rounded-full" style={{ width: `${b.v}%`, backgroundColor: i === 0 ? "#356AE6" : "#A9C0F5" }} />
                   </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Insight chip */}
-            <div className="inline-flex items-center gap-2 bg-[#EEF0FF] border border-indigo-200 rounded-lg px-3 py-1.5">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M6 1l1.2 3.5H11L8 6.8l1 3.2L6 8.3 3 10l1-3.2L1 4.5h3.8L6 1z" fill="#6256C7" />
-              </svg>
-              <span className="text-[11.5px] font-semibold text-[#6256C7]">
-                Increase Email investment: highest ROI at 4.2x
-              </span>
+                </div>
+              ))}
             </div>
           </div>
-        </div>
 
-        {/* Input */}
-        <div className="flex gap-2 pt-1">
-          <div className="flex-1 bg-white border border-[#E9EAEC] rounded-xl px-3.5 py-2 text-[12.5px] text-[#9CA3AF]">
-            Ask a follow-up question...
-          </div>
-          <div className="w-8 h-8 rounded-xl bg-[#356AE6] flex items-center justify-center flex-shrink-0">
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-              <path d="M2 6.5h9M7 2l4.5 4.5L7 11" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <div className="rounded-xl bg-[#F5F7FB] p-4">
+              <p className="text-xs font-semibold text-[#172B4D]">Assumptions</p>
+              <p className="mt-1.5 text-xs leading-5 text-[#667085]">Revenue is summed per channel. Rows with missing channel values are excluded.</p>
+            </div>
+            <div className="rounded-xl bg-[#F5F7FB] p-4">
+              <p className="text-xs font-semibold text-[#172B4D]">Suggested next step</p>
+              <p className="mt-1.5 text-xs leading-5 text-[#667085]">Compare cost per acquisition across channels before shifting budget.</p>
+            </div>
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+function DataQualityPreview() {
+  const rows = [
+    { l: "Rows analyzed", v: "Detected on upload" },
+    { l: "Missing values", v: "Flagged by column" },
+    { l: "Duplicate records", v: "Counted and listed" },
+    { l: "Outliers", v: "Marked in each column" },
+  ];
+  return (
+    <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
+      <p style={display} className="text-sm font-bold text-white">
+        Automated data analysis
+      </p>
+      <dl className="mt-4 divide-y divide-white/10">
+        {rows.map((r) => (
+          <div key={r.l} className="flex items-center justify-between gap-4 py-3 text-sm">
+            <dt className="text-white/60">{r.l}</dt>
+            <dd className="font-medium text-white">{r.v}</dd>
+          </div>
+        ))}
+      </dl>
     </div>
   );
 }

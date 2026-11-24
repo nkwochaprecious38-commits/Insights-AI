@@ -3,7 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, Check } from "lucide-react";
-import { createClient } from "@/lib/supabase/client";
+import { createClient, isSupabaseConfigured, NOT_CONFIGURED_MESSAGE } from "@/lib/supabase/client";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 
@@ -23,6 +23,7 @@ export default function SignUpPage() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [serverError, setServerError] = useState("");
+  const [needsVerification, setNeedsVerification] = useState(false);
 
   const validate = () => {
     const e: Record<string, string> = {};
@@ -40,11 +41,12 @@ export default function SignUpPage() {
     const errs = validate();
     if (Object.keys(errs).length > 0) { setErrors(errs); return; }
     setErrors({});
+    if (!isSupabaseConfigured) { setServerError(NOT_CONFIGURED_MESSAGE); return; }
     setLoading(true);
     setServerError("");
 
     const supabase = createClient();
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email: form.email,
       password: form.password,
       options: {
@@ -60,8 +62,11 @@ export default function SignUpPage() {
     if (error) {
       setServerError(error.message);
     } else {
+      // With email confirmation enabled Supabase returns no session until the link is clicked.
+      const hasSession = Boolean(data.session);
+      setNeedsVerification(!hasSession);
       setSuccess(true);
-      setTimeout(() => router.push("/dashboard"), 1500);
+      if (hasSession) setTimeout(() => router.push("/dashboard"), 1500);
     }
   };
 
@@ -77,11 +82,16 @@ export default function SignUpPage() {
           <Check className="h-7 w-7 text-emerald-600" />
         </div>
         <h2 className="text-xl font-bold text-[#172B4D] mb-2" style={{ fontFamily: "Manrope, sans-serif" }}>
-          Account created
+          {needsVerification ? "Check your email" : "Account created"}
         </h2>
         <p className="text-[#667085] text-sm">
-          Redirecting you to your dashboard...
+          {needsVerification
+            ? `We sent a verification link to ${form.email}. Open it to activate your account, then log in.`
+            : "Redirecting you to your dashboard..."}
         </p>
+        {needsVerification && (
+          <a href="/login" className="mt-6 inline-block text-sm font-semibold text-[#356AE6] hover:text-[#2458D0]">Go to log in</a>
+        )}
       </div>
     );
   }

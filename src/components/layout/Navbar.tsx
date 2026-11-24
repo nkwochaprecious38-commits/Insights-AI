@@ -17,7 +17,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
-  const isDark = pathname === "/";
+  const isDark = false;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
