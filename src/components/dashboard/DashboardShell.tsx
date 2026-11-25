@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { LogoMark } from "@/components/brand/Logo";
 import { createClient, isSupabaseConfigured } from "@/lib/supabase/client";
 import {
   LayoutDashboard,
@@ -79,17 +80,6 @@ const navGroups: NavGroup[] = [
   },
 ];
 
-function Logo() {
-  return (
-    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-      <rect width="28" height="28" rx="7" fill="#172B4D" />
-      <path d="M6 20L10.5 12.5L14 16.5L18.5 9" stroke="#356AE6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-      <circle cx="18.5" cy="9" r="1.8" fill="#16A6A1" />
-      <circle cx="6" cy="20" r="1.4" fill="#6256C7" />
-    </svg>
-  );
-}
-
 export default function DashboardShell({ children }: { children: React.ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -127,7 +117,7 @@ export default function DashboardShell({ children }: { children: React.ReactNode
     <div className="flex flex-col h-full">
       {/* Logo */}
       <div className={`flex items-center ${collapsed ? "justify-center px-3 py-4" : "gap-2.5 px-4 py-4"} border-b border-white/[0.07]`}>
-        <Logo />
+        <LogoMark size={collapsed ? 32 : 34} tile />
         {!collapsed && (
           <span
             className="font-extrabold text-[15px] text-white"

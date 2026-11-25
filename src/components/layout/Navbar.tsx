@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Logo from "@/components/brand/Logo";
 
 const nav = [
   { label: "Platform", href: "/platform" },
@@ -37,17 +38,8 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
         <div className="flex items-center justify-between h-[62px]">
 
-          <Link href="/" className="flex items-center gap-2.5 flex-shrink-0 group">
-            <Logo />
-            <span
-              className={cn(
-                "font-extrabold text-[17px] tracking-tight transition-colors",
-                isDark && !scrolled ? "text-white" : "text-[#0D1117]"
-              )}
-              style={{ fontFamily: "Manrope, sans-serif", letterSpacing: "-0.03em" }}
-            >
-              Insights AI
-            </span>
+          <Link href="/" className="flex-shrink-0" aria-label="Insights AI home">
+            <Logo size={42} />
           </Link>
 
           <nav className="hidden md:flex items-center gap-0.5">
@@ -126,16 +118,5 @@ export default function Navbar() {
         </div>
       )}
     </header>
-  );
-}
-
-function Logo() {
-  return (
-    <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
-      <rect width="30" height="30" rx="7" fill="#172B4D" />
-      <path d="M7 21L12 13L16 17.5L20 10" stroke="#356AE6" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
-      <circle cx="20" cy="10" r="2" fill="#16A6A1" />
-      <circle cx="7" cy="21" r="1.5" fill="#6256C7" />
-    </svg>
   );
 }
